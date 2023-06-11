@@ -1,0 +1,119 @@
+<div
+  class="dashboard"
+  *ngIf="vm$ | async as vm"
+>
+  <ng-container *ngIf="vm.loadingState; else dashboard">
+    <mat-spinner></mat-spinner>
+  </ng-container>
+  <ng-template #dashboard>
+    <div class="statistics">
+      <mat-card>
+        <mat-card-title>Total CPUs</mat-card-title>
+        <mat-card-content>
+          <p>{{ vm.totalCPUs }}</p>
+        </mat-card-content>
+      </mat-card>
+      <mat-card>
+        <mat-card-title>Status Counts</mat-card-title>
+        <mat-card-content>
+          <p *ngFor="let status of vm.statusCounts">
+            {{ status.name }}: {{ status.count }}
+          </p>
+        </mat-card-content>
+      </mat-card>
+      <mat-card>
+        <mat-card-title>Location Distribution</mat-card-title>
+        <mat-card-content>
+          <p *ngFor="let location of vm.locationCounts">
+            {{ location.name }}: {{ location.count }}
+          </p>
+        </mat-card-content>
+      </mat-card>
+      <mat-card>
+        <mat-card-title>Total Startable</mat-card-title>
+        <mat-card-content>
+          <p>{{ vm.startableAssetsCount }}</p>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+    <div class="filter">
+      <mat-form-field>
+        <mat-label>Filter by Name</mat-label>
+        <input
+          matInput
+          [ngModel]="vm.nameFilter"
+          (ngModelChange)="applyNameFilter($event)"
+        />
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Filter by Status</mat-label>
+        <mat-select
+          [value]="vm.statusFilter"
+          (valueChange)="applyStatusFilter($event)"
+          [disableOptionCentering]="true"
+          panelClass="filter-select-panel"
+        >
+          <mat-option>None</mat-option>
+          <mat-option value="Running">Running</mat-option>
+          <mat-option value="Unknown">Unknown</mat-option>
+          <mat-option value="Stopped">Stopped</mat-option>
+          <mat-option value="MigrationFailed">Migration Failed</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Filter by tag</mat-label>
+        <mat-select
+          multiple
+          [value]="vm.tagFilters"
+          (valueChange)="applyTagFilter($event)"
+          [disableOptionCentering]="true"
+          panelClass="filter-select-panel"
+        >
+          <mat-option
+            *ngFor="let tag of vm.allTags"
+            [value]="tag"
+            >{{ tag }}</mat-option
+          >
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div class="card-container">
+      <mat-card
+        class="asset-card {{ asset.status }}"
+        *ngFor="let asset of vm.filteredData"
+      >
+        <mat-card-title class="asset-name">{{ asset.name }}</mat-card-title>
+        <mat-card-content>
+          <div class="detail-row">
+            <p><strong>Location:</strong> {{ asset.location }}</p>
+            <p><strong>Status:</strong> {{ asset.status }}</p>
+            <p><strong>CPU:</strong> {{ asset.cpu }}</p>
+          </div>
+          <div class="tag-container">
+            <div
+              *ngFor="let tag of asset.tags"
+              class="tag-chip"
+              [ngClass]="{ selected: vm.tagFilters.includes(tag) }"
+              (click)="chipClick(tag)"
+            >
+              {{ tag }}
+            </div>
+          </div>
+        </mat-card-content>
+        <mat-card-actions class="actions">
+          <button
+            mat-button
+            color="primary"
+            (click)="onViewDetails(asset)"
+          >
+            VIEW DETAILS
+          </button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+  </ng-template>
+</div>

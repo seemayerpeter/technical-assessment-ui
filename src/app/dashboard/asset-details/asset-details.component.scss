@@ -1,0 +1,29 @@
+.dashboard-button {
+  right: 1rem;
+  position: absolute;
+}
+
+.detail-card {
+  padding: 1rem;
+  max-width: 600px;
+  margin: auto;
+  margin-top: 3rem;
+}
+
+.asset-name {
+  color: #3f51b5;
+}
+
+.detail-row p {
+  margin: 0.5rem 0;
+}
+
+.tags-list {
+  padding: 0.5rem 0;
+}
+
+.error-text {
+  color: red;
+  font-size: 1.2rem;
+  font-weight: bold;
+}

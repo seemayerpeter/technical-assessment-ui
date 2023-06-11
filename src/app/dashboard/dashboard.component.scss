@@ -1,0 +1,123 @@
+@import '~@angular/material/theming';
+
+$mat-indigo-palette: mat-palette($mat-indigo);
+$mat-pink-palette: mat-palette($mat-pink);
+$mat-light-green-palette: mat-palette($mat-light-green);
+$mat-red-palette: mat-palette($mat-red);
+$mat-yellow-palette: mat-palette($mat-yellow);
+$mat-purple-palette: mat-palette($mat-purple);
+
+$running: mat-color($mat-light-green-palette, 900);
+$migration-failed: mat-color($mat-red-palette, 600);
+$unknown: mat-color($mat-yellow-palette, 600);
+$stopped: mat-color($mat-purple-palette, 400);
+$asset-name: mat-color($mat-indigo-palette);
+$tag-chip: mat-color($mat-grey, 300);
+$tag-chip-selected: mat-color($mat-pink-palette);
+
+.statistics {
+  display: flex;
+  justify-content: center;
+
+  mat-card {
+    flex-basis: calc(25%);
+    margin: 10px;
+    border: 1px solid mat-color($mat-grey, 500);
+    background-color: $tag-chip;
+    color: black;
+
+    mat-card-content {
+      display: flex;
+      flex-wrap: wrap;
+      flex-direction: column;
+      align-content: center;
+      justify-content: center;
+      align-items: center;
+      min-height: 8rem;
+      font-size: 2.4rem;
+      line-height: 1.7rem;
+    }
+  }
+}
+
+.filter {
+  background-color: $tag-chip;
+  border: 1px solid mat-color($mat-grey, 500);
+  margin: 0.9rem;
+
+  mat-form-field {
+    margin: 1rem;
+  }
+}
+
+::ng-deep {
+  .filter-select-panel {
+    margin-top: 1.5rem;
+  }
+}
+
+.card-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+}
+
+.asset-card {
+  margin: 0.8rem;
+  width: 30%;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+
+  &.Running {
+    border: 2px solid $running;
+    background-color: lighten($running, 40%);
+  }
+
+  &.Stopped {
+    border: 2px solid $stopped;
+    background-color: lighten($stopped, 40%);
+  }
+
+  &.Unknown {
+    border: 2px solid $unknown;
+    background-color: lighten($unknown, 40%);
+  }
+
+  &.MigrationFailed {
+    border: 2px solid $migration-failed;
+    background-color: lighten($migration-failed, 40%);
+  }
+
+  .asset-name {
+    color: $asset-name;
+  }
+
+  .detail-row {
+    p {
+      margin: 0.5rem 0;
+    }
+  }
+
+  .tag-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 1rem;
+
+    .tag-chip {
+      padding: 0.2rem 0.5rem;
+      background-color: $tag-chip;
+      border: 1px solid grey;
+      border-radius: 1rem;
+      cursor: pointer;
+
+      &.selected {
+        background-color: $tag-chip-selected;
+        color: white;
+      }
+    }
+  }
+
+  .actions {
+    margin-top: 1rem;
+  }
+}

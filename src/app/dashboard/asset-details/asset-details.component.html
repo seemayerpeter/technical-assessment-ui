@@ -1,0 +1,75 @@
+<ng-container *ngIf="vm$ | async as vm">
+  <div *ngIf="vm.selectedItem; else loading">
+    <mat-card class="mat-elevation-z8 detail-card">
+      <mat-card-header>
+        <mat-card-title class="asset-name">{{
+          vm.selectedItem.name
+        }}</mat-card-title>
+        <mat-card-subtitle
+          >Status: {{ vm.selectedItem.status }}</mat-card-subtitle
+        >
+        <button
+          mat-raised-button
+          color="primary"
+          class="dashboard-button"
+          (click)="goToDashboard()"
+        >
+          Back to Dashboard
+        </button>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="detail-row">
+          <p><strong>ID:</strong> {{ vm.selectedItem.id }}</p>
+          <p>
+            <strong>Is Startable:</strong>
+            {{ vm.selectedItem.isStartable ?? '-' }}
+          </p>
+          <p><strong>Location:</strong> {{ vm.selectedItem.location }}</p>
+          <p><strong>Owner:</strong> {{ vm.selectedItem.owner ?? '-' }}</p>
+          <p>
+            <strong>Created By:</strong> {{ vm.selectedItem.createdBy ?? '-' }}
+          </p>
+          <p><strong>CPU:</strong> {{ vm.selectedItem.cpu }}</p>
+          <p><strong>RAM:</strong> {{ vm.selectedItem.ram }}</p>
+          <p>
+            <strong>Created At:</strong>
+            {{ (vm.selectedItem.createdAt | date) ?? '-' }}
+          </p>
+          <p><strong>Tags:</strong></p>
+        </div>
+        <mat-chip-list class="tags-list">
+          <mat-chip *ngFor="let tag of vm.selectedItem.tags">{{
+            tag
+          }}</mat-chip>
+        </mat-chip-list>
+      </mat-card-content>
+      <mat-card-actions>
+        <ng-container *ngIf="vm.selectedItem.parentId === null; else hasParent">
+          <p>This asset has no parent.</p>
+        </ng-container>
+        <ng-template #hasParent>
+          <ng-container *ngIf="vm.parentAsset; else parentDoesNotExist">
+            <button
+              mat-raised-button
+              color="primary"
+              (click)="goToParent(vm.parentAsset.id)"
+            >
+              Go to parent asset ({{ vm.parentAsset.name }})
+            </button>
+          </ng-container>
+          <ng-template #parentDoesNotExist>
+            <p class="error-text">The parent of this asset does not exist.</p>
+          </ng-template>
+        </ng-template>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+  <ng-template #loading>
+    <ng-container *ngIf="vm.loadingState; else invalidItem">
+      <mat-spinner></mat-spinner>
+    </ng-container>
+  </ng-template>
+  <ng-template #invalidItem>
+    <p class="error-text">Invalid item ID!</p>
+  </ng-template>
+</ng-container>
