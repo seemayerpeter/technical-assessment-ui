@@ -57,4 +57,9 @@ describe('AssetDetailsComponent', () => {
     expect(mockRouter.navigate).toHaveBeenCalledWith(['/dashboard/assets', 1]);
     expect(mockStateService.setSeletedItem).toHaveBeenCalledWith(1);
   });
+
+  it('should navigate to dashboard', () => {
+    component.goToDashboard();
+    expect(mockRouter.navigate).toHaveBeenCalledWith(['/dashboard']);
+  });
 });
